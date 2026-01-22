@@ -10,9 +10,9 @@ class User(Base):
     __tablename__ = "users"
 
     id=Column(Integer, primary_key=True, index=True)
-    email=Column(String, index=True, uniq=True, nullable=False)
+    email=Column(String, index=True, unique=True, nullable=False)
     password=Column(String, nullable=False)
 
-    Espenses = relationship("Expense", back_populates="owner")
+    espenses = relationship("Expense", back_populates="owner")
 
 
