@@ -1,15 +1,11 @@
-from operator import index
-
-from sqlalchemy import column, Integer, String, Column, true
+from sqlalchemy import Integer, String, Column
 from sqlalchemy.orm import relationship
-
 from app.core.db import Base
-
 
 class Category(Base):
     __tablename__ = "categories"
 
-    id=Column(Integer, primary_key=True, index=True)
-    name=Column(String, unique=True, index=True, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True, nullable=False)
 
-    expenses = relationship("Expense", back_populates=true)
+    expenses = relationship("Expense", back_populates="category")
