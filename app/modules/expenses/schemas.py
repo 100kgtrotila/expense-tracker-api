@@ -1,6 +1,9 @@
-from decimal import Decimal
 from datetime import datetime
+from decimal import Decimal
+from typing import Optional
+
 from pydantic import BaseModel, Field, ConfigDict
+
 
 class ExpenseBase(BaseModel):
     category_id: int = Field(..., description="Category ID")
@@ -15,3 +18,8 @@ class ExpenseResponse(ExpenseBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class UpdateExpense(ExpenseBase):
+    name: Optional[str] = None
+    spent: Optional[Decimal] = None
+    category_id: Optional[int] = None
