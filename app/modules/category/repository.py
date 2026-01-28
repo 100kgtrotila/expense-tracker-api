@@ -21,8 +21,14 @@ class CategoryRepository:
         self.session.delete(category)
         await self.session.flush()
 
-    async def update(self, category: Category, updated_name: str) -> Category:
-        category.name = updated_name
+    async def update(self, category: Category, update_data: dict) -> Category:
+        for key, value in update_data.items():
+            setattr(category, key, value)
         await self.session.flush()
         await self.session.refresh(category)
         return category
+
+    async def get_by_name(self, category_name: str):
+        query = select(Category).where(Category.name == category_name)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
