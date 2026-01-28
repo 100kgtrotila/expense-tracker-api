@@ -34,3 +34,8 @@ class ExpenseRepository:
     async def delete(self, expense: Expense) -> None:
         self.session.delete(expense)
         await self.session.flush()
+
+    async def get_by_name(self, expense_name: str):
+        query = select(Expense).where(Expense.name == expense_name)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()

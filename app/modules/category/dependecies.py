@@ -2,7 +2,7 @@ from fastapi.params import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import get_db
-from app.modules.expenses.repository import ExpenseRepository
+from app.modules.category.repository import CategoryRepository
 
-def get_expense_repository(db: AsyncSession = Depends(get_db)) -> ExpenseRepository:
-    return ExpenseRepository(session=db)
+def get_category_repository(db: AsyncSession = Depends(get_db)) -> CategoryRepository:
+    return CategoryRepository(session=db)
