@@ -9,6 +9,7 @@ class ExpenseBase(BaseModel):
     category_id: int = Field(..., description="Category ID")
     name: str = Field(..., min_length=3, max_length=50, description="Expense Name")
     spent: Decimal = Field(..., gt=0, decimal_places=2, description="Amount spent")
+
 class CreateExpense(ExpenseBase):
     pass
 

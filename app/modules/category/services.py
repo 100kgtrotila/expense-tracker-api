@@ -1,3 +1,4 @@
+from app.core.exceptions import NotFoundException, AlreadyExistsException
 from app.modules.category.models import Category
 from app.modules.category.repository import CategoryRepository
 from app.modules.category.schemas import CategoryCreate, CategoryUpdate
@@ -10,12 +11,15 @@ class CategoryService:
     async def get_category_by_id(self, category_id) -> Category:
         category = await self.repository.get_by_id(category_id)
         if not category:
-            raise Exception("Category not found")
+            raise NotFoundException(f"Category with id{category_id} not found")
         return category
+
+    async def get_all_categories(self) -> list[Category]:
+        return await self.repository.get_all()
 
     async def create_category(self, category_data: CategoryCreate) -> Category | None:
         if await self.repository.get_by_name(category_data.name):
-            raise Exception("This name is taken")
+            raise AlreadyExistsException(f"Category with name {category_data.name} is already taken")
         new_category = await self.repository.create(category_data.name)
 
         try:

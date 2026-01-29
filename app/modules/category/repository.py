@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.category.models import Category
 
@@ -10,6 +10,11 @@ class CategoryRepository:
         query = select(Category).where(Category.id == category_id)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
+
+    async def get_all(self) -> Sequence[Category]:
+        query = select(Category).order_by(Category.id)
+        result = await self.session.execute(query)
+        return result.scalars().all()
 
     async def create(self, category_name: str) -> Category:
         db_category = Category(name=category_name)
