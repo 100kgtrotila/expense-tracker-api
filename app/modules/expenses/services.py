@@ -10,6 +10,9 @@ class ExpenseService:
     def __init__(self, repository: ExpenseRepository):
         self.repository = repository
 
+    async def get_expenses_by_user(self, user_id: int, skip: int, limit: int, search: str = None):
+        return self.repository.get_by_user(user_id, skip, limit, search)
+
     async def get_expense_by_id(self, expense_id) -> Expense:
         expense = await self.repository.get_by_id(expense_id)
         if not expense:

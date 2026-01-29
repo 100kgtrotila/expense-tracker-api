@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.expenses.models import Expense
@@ -11,6 +13,16 @@ class ExpenseRepository:
         query = select(Expense).where(Expense.id == expense_id)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
+
+    async def get_by_user(self, user_id: int, skip: int, limit: int = 100, search: str =None) -> List[Expense]:
+        query = select(Expense).where(Expense.user_id == user_id)
+
+        if search:
+            query = query.where(Expense.name.ilike(f"%{search}"))
+
+        query = query.offset(skip).limit(limit)
+        result = await self.session.execute(query)
+        return list(result.scalars().all())
 
     async def create(self, expense_data: CreateExpense, user_id: int) -> Expense:
         db_expense = Expense(

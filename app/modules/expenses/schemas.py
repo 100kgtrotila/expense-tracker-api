@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -24,3 +24,9 @@ class UpdateExpense(ExpenseBase):
     name: Optional[str] = None
     spent: Optional[Decimal] = None
     category_id: Optional[int] = None
+
+class PaginatedResponse(BaseModel):
+    data: List[ExpenseResponse]
+    page: int
+    limit: int
+    total: int
