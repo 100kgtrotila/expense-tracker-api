@@ -14,6 +14,6 @@ class CategoryResponse(CategoryBase):
 
     model_config = ConfigDict(from_attributes=True)
 
-class CategoryUpdate(CategoryBase):
-    name: Optional[str] = None
+class CategoryUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=3, max_length=50)
 
