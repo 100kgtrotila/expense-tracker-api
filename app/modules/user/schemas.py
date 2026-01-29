@@ -3,10 +3,9 @@ from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 class UserBase(BaseModel):
     email: EmailStr = Field(..., description="user email")
-    password: str = Field(..., gt=5, description="user password")
 
 class CreateUser(UserBase):
-    pass
+    password: str = Field(..., gt=5, description="user password")
 
 class UserResponse(UserBase):
     id: int

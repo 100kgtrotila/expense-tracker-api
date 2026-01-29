@@ -13,6 +13,6 @@ class User(Base):
     email=Column(String, index=True, unique=True, nullable=False)
     password=Column(String, nullable=False)
 
-    espenses = relationship("Expense", back_populates="owner")
+    expenses = relationship("Expense", back_populates="owner")
 
 
