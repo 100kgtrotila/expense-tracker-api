@@ -1,5 +1,6 @@
 from sqlalchemy.orm.sync import update
 
+from app.core.exceptions import NotFoundException
 from app.modules.expenses.models import Expense
 from app.modules.expenses.repository import ExpenseRepository
 from app.modules.expenses.schemas import CreateExpense, UpdateExpense
@@ -12,7 +13,7 @@ class ExpenseService:
     async def get_expense_by_id(self, expense_id) -> Expense:
         expense = await self.repository.get_by_id(expense_id)
         if not expense:
-            raise Exception("Expense not found")
+            raise NotFoundException(f"Expense with id{expense_id} not found")
         return expense
 
     async def create_expense(self, expense_data: CreateExpense, user_id: int) -> Expense:
