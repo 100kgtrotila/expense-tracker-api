@@ -1,7 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 
+from app.core.errors import register_exeption_handlers
+
 app = FastAPI(title="Expense Tracker API")
+register_exeption_handlers(app)
 
 
 if __name__ == "__main__":
