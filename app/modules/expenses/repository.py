@@ -1,7 +1,9 @@
 from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.functions import user
+
 from app.modules.expenses.models import Expense
 from app.modules.expenses.schemas import CreateExpense
 
@@ -51,3 +53,13 @@ class ExpenseRepository:
         query = select(Expense).where(Expense.name == expense_name)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
+
+
+    async def get_count_by_user(self, user_id: int, search: str = None  ) -> int:
+        query = select(func.count()).select_from(Expense).where(Expense.user_id==user_id)
+        if search:
+            query = query.where(Expense.name.ilike(f"%{search}"))
+
+        result = await self.session.execute(query)
+
+        return result.scalar()

@@ -11,7 +11,12 @@ class ExpenseService:
         self.repository = repository
 
     async def get_expenses_by_user(self, user_id: int, skip: int, limit: int, search: str = None):
-        return self.repository.get_by_user(user_id, skip, limit, search)
+        expenses = await self.repository.get_by_user(user_id, skip, limit, search)
+        total_count = await self.repository.get_count_by_user(user_id, search)
+        return expenses, total_count
+
+    async def get_count_by_user(self, user_id: int, search: str = None):
+        return await self.repository.get_count_by_user(user_id=user_id, search=search)
 
     async def get_expense_by_id(self, expense_id) -> Expense:
         expense = await self.repository.get_by_id(expense_id)
@@ -45,5 +50,8 @@ class ExpenseService:
             await self.repository.session.commit()
         except Exception:
             await self.repository.session.rollback()
+
+
+
 
 

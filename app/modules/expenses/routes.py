@@ -24,11 +24,12 @@ async def get_my_expenses(page: int = 1,
 
     skip = (page - 1) * limit
 
-    expenses = await service.get_expenses_by_user(user_id=current_user.id, limit=limit, skip=skip, search=search)
+    expenses, total = await service.get_expenses_by_user(user_id=current_user.id, limit=limit, skip=skip, search=search)
     return {
         "data": expenses,
         "page": page,
-        "limit": limit
+        "limit": limit,
+        "total": total
     }
 
 @router.post("/", response_model=ExpenseResponse, status_code=status.HTTP_201_CREATED)
