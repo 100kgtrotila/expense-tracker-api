@@ -11,12 +11,16 @@ from app.core.db import get_db
 from app.core.security import oauth2_scheme
 from app.modules.user.repository import UserRepository
 from app.modules.user.schemas import TokenData
+from app.modules.user.services import UserService
 
 
 def get_user_repository(db: AsyncSession = Depends(get_db)) -> UserRepository:
     return UserRepository(session=db)
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], repo: UserRepository):
+def get_user_service(repo: UserRepository = Depends(get_user_repository)) -> UserService:
+    return UserService(repository=repo)
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], repo: UserRepository = Depends(get_user_repository)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

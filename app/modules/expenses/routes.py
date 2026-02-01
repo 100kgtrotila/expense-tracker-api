@@ -40,8 +40,8 @@ async def update_expense(expense_id: int, expense_data: UpdateExpense, service: 
     return await service.update_expense(expense_id=expense_id, expense_data=expense_data)
 
 @router.delete("/{expense_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_expense(espense_id: int, service: ExpenseService = Depends(get_expense_service)):
-    await service.delete_expense(expense_id=espense_id)
+async def delete_expense(expense_id: int, service: ExpenseService = Depends(get_expense_service)):
+    await service.delete_expense(expense_id=expense_id)
 
 
 

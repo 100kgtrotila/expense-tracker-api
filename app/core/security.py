@@ -1,5 +1,5 @@
 from datetime import timedelta, timezone, datetime
-from config import settings
+from app.core.config import settings
 import jwt
 from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash

@@ -5,7 +5,7 @@ class UserBase(BaseModel):
     email: EmailStr = Field(..., description="user email")
 
 class CreateUser(UserBase):
-    password: str = Field(..., gt=5, description="user password")
+    password: str = Field(..., description="user password")
 
 class UserResponse(UserBase):
     id: int
